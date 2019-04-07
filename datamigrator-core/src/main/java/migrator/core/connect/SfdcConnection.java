@@ -86,10 +86,20 @@ public class SfdcConnection {
         return connectionSource;
     }
 
+    /**
+     * Gets the target connection
+     * 
+     * @return 
+     */
     public PartnerConnection getTargetConnection() {
         return connectionTarget;
     }
 
+    /**
+     * Performs the login
+     * 
+     * @return 
+     */
     public boolean login() {
         boolean isSuccess = loginTarget();
         if (!isSuccess)
@@ -105,7 +115,11 @@ public class SfdcConnection {
         }
         return true;
     }
-
+    /**
+     * Login to the Source Endpoint
+     * 
+     * @return 
+     */
     public boolean loginSource() {
         System.out.println("\nloginSource START...");
 
@@ -138,6 +152,11 @@ public class SfdcConnection {
         return success;
     }
 
+    /**
+     * Login to the Target Endpoint
+     * 
+     * @return 
+     */
     public boolean loginTarget() {
         System.out.println("\nloginTarget START ...");
 
@@ -169,6 +188,9 @@ public class SfdcConnection {
         return success;
     }
 
+    /**
+     * Login to multiple targets 
+     */
     private void loginTargetMulti() {
         if (connectionTargets.size() > 0) {
             return;
@@ -217,6 +239,9 @@ public class SfdcConnection {
 
     }
 
+    /**
+     * Read from the properties file and set variables
+     */
     private void readProperties() {
         // get the property value and print it out
         sourceUserName =
@@ -237,6 +262,10 @@ public class SfdcConnection {
         proxyPort = PropertiesReader.getInstance().getProperty(PropertiesReader.PROPERTY_TYPE.BUILD, "env.proxy.port");
     }
 
+    /**
+     * Print the user information from the source endpoint
+     * @param config 
+     */
     private void printUserInfo(ConnectorConfig config) {
         try {
             GetUserInfoResult userInfo = connectionSource.getUserInfo();
@@ -255,6 +284,11 @@ public class SfdcConnection {
         }
     }
 
+    /**
+     * Print the user information to the target endpoint
+     * @param config
+     * @param connectionTarget 
+     */
     private void printUserInfoImport(ConnectorConfig config, PartnerConnection connectionTarget) {
         try {
             GetUserInfoResult userInfoImport = connectionTarget.getUserInfo();
@@ -274,6 +308,8 @@ public class SfdcConnection {
     }
 
     /**
+     * gets the last login time
+     * 
      * @return the lastSalesforceLoginTime
      */
     public long getLastSalesforceLoginTime() {
@@ -281,6 +317,8 @@ public class SfdcConnection {
     }
 
     /**
+     * sets the last login time 
+     * 
      * @param lastSalesforceLoginTime the lastSalesforceLoginTime to set
      */
     public void setLastSalesforceLoginTime(long lastSalesforceLoginTime) {
@@ -288,6 +326,8 @@ public class SfdcConnection {
     }
 
     /**
+     * gets the Connection Targets
+     * 
      * @return the connectionTargets
      */
     public List<PartnerConnection> getConnectionTargets() {
@@ -295,12 +335,19 @@ public class SfdcConnection {
     }
 
     /**
+     * Sets the connection targets
+     * 
      * @param connectionTargets the connectionTargets to set
      */
     public void setConnectionTargets(List<PartnerConnection> connectionTargets) {
         this.connectionTargets = connectionTargets;
     }
 
+    /**
+     * Logout from a connection
+     * 
+     * @param connection 
+     */
     private void logout(PartnerConnection connection) {
         /*
          * try { connection.logout();
@@ -312,6 +359,10 @@ public class SfdcConnection {
          */
     }
 
+    /**
+     * Disconnects from the endpoint
+     * 
+     */
     public void disconnect() {
         log.info("Logging out...");
         logout(connectionSource);
